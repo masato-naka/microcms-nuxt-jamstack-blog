@@ -1,31 +1,36 @@
 <template>
-  <div>
-    <ul>
-      <li v-for="content in contents" :key="content.id">
-        <nuxt-link :to="`/${content.id}`">
-          {{ content.title }}
-        </nuxt-link>
-      </li>
-    </ul>
+  <div class="container">
+    <div>
+      <Logo />
+      <h1 class="title">
+        microcms-nuxt-jamstack-blog
+      </h1>
+      <div class="links">
+        <a
+          href="https://nuxtjs.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button--green"
+        >
+          Documentation
+        </a>
+        <a
+          href="https://github.com/nuxt/nuxt.js"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button--grey"
+        >
+          GitHub
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import axios from 'axios'
 
-export default {
-  async asyncData() {
-    const { data } = await axios.get(
-      `https://unifatestblog.microcms.io/api/v1/blog`,
-      {
-        headers:{ 'X-API-KEY' : '85261492-bf2d-412f-bdc8-2b6e6edb21ea'}
-      }
-    )
-    return data
-  }
-}
-
+export default Vue.extend({})
 </script>
 
 <style>
