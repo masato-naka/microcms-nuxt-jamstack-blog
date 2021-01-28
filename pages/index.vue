@@ -1,25 +1,35 @@
 <template>
   <div>
-    <ul>
-      <li v-for="content in contents" :key="content.id">
-        <nuxt-link :to="`/${content.id}`">
-          {{ content.title }}
-        </nuxt-link>
-      </li>
-    </ul>
+    <Logo />
+    AA
+    <div>
+      <ul>
+        <li v-for="content in contents" :key="content.id">
+          <nuxt-link :to="`/${content.id}`">
+            {{ content.title }}
+          </nuxt-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script>
 import axios from 'axios'
+import Logo from '~/components/Logo.vue'
 
 export default {
-  async asyncData() {
+  components: {
+    Logo
+  },
+  mounted() {
+    console.log(process.env.API_KEY)
+  },
+  async asyncData({ $config }) {
     const { data } = await axios.get(
-      `https://unifatestblog.microcms.io/api/v1/blog`,
+      'https://unifatestblog.microcms.io/api/v1/blog/',
       {
-        headers:{ 'X-API-KEY' : '85261492-bf2d-412f-bdc8-2b6e6edb21ea'}
+        headers:{ 'X-API-KEY' : $config.apiKey }
       }
     )
     return data

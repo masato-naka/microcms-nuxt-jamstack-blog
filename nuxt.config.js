@@ -1,4 +1,14 @@
+require('dotenv').config();
+const { API_KEY } = process.env;
+
 export default {
+  privateRuntimeConfig: {
+    apiKey: API_KEY
+  },
+  publicRuntimeConfig: {
+    apiKey: process.env.NODE_ENV !== 'production' ? API_KEY : undefined
+  },
+    
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
@@ -36,10 +46,13 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [
-  ],
+
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+  },
+  env: {
+    API_KEY
+  },
+
 }

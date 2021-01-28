@@ -2,7 +2,10 @@
   <main class="main">
     <h1 class="title bg-gray-300 hover:bg-gray-400">{{ title }}</h1>
     <p class="publishedAt">{{ publishedAt }}</p>
+    <div class="category">{{ category && category.name }}</div>
     <div class="post" v-html="body"></div>
+    <nuxt-link to="/">戻る</nuxt-link>
+    <br><br>
     <div class="todo">
       <h2 class="mb-2 px-2 text-xl">New Todo</h2>
       <form class="mb-4 px-4">
@@ -28,15 +31,15 @@
   </main>
 </template>
 
-<script lang="ts">
+<script>
 import axios from 'axios'
 
 export default {
-  async asyncData({ params }:{params: any}) {
+  async asyncData( {$config , params }) {
     const { data } = await axios.get(
       `https://unifatestblog.microcms.io/api/v1/blog/${params.slug}`,
       {
-        headers:{ 'X-API-KEY' : '85261492-bf2d-412f-bdc8-2b6e6edb21ea'}
+        headers:{ 'X-API-KEY' : $config.apiKey }
       }
     )
     return data
