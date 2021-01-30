@@ -27,7 +27,7 @@ export default {
   },
   async asyncData({ $config }) {
     const { data } = await axios.get(
-      'https://unifatestblog.microcms.io/api/v1/blog/',
+        $config.apiRoot + '/blog/',
       {
         headers:{ 'X-API-KEY' : $config.apiKey }
       }
