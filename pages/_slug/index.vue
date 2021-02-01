@@ -1,15 +1,17 @@
 <template>
-  <main class="main">
+  <main class="main m-4">
     <h1 class="title bg-gray-300 hover:bg-gray-400">{{ title }}</h1>
     <p class="publishedAt">{{ publishedAt }}</p>
     <div class="category">{{ category && category.name }}</div>
-    <div class="post" v-html="body"></div>
-    <div v-if="prev !== undefined">
-      <nuxt-link :to="`/${prev.id}`">{{ prev.title }}</nuxt-link>
+    <div class="tag">
+      <ul>
+        <li v-for="tag in tags" :key="tag.id">{{tag.name}}</li>
+      </ul>
     </div>
-    <div v-if="next !== undefined">
-      <nuxt-link :to="`/${next.id}`">{{ next.title }}</nuxt-link>
-    </div>    
+    <div class="post my-4 border-l bg-gray-200 p-4" v-html="body"></div>
+
+    <PrevNextPost :next="next" :prev="prev" />
+ 
     <nuxt-link to="/">戻る</nuxt-link>
     <br><br>
     <div class="todo">
@@ -39,9 +41,13 @@
 
 <script>
 import axios from 'axios'
+import PrevNextPost from '~/components/PrevNextPost'
 
 export default {
   layout: 'blog',
+  components: {
+    PrevNextPost
+  },
   async asyncData( {$config , params }) {
     const { data } = await axios.get(
         $config.apiRoot + `/blog/${params.slug}`,
@@ -78,6 +84,8 @@ export default {
     if ( resPrev.data.contents && resPrev.data.contents.length >0 ){
       data.prev = resPrev.data.contents[0]
     }
+    console.log(data)
+    console.log(data.tag)
     return data
   },
 }
