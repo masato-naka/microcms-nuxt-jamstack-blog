@@ -1,0 +1,49 @@
+<template>
+  <main class="main m-4">
+    <h1>category</h1>
+    <h2>{{ category.name }}</h2>
+    <ul>
+      <li v-for="post in posts.contents" :key="post.id">
+        {{ post.title }}
+      </li>
+    </ul>
+    <nuxt-link to="/">戻る</nuxt-link>
+  </main> 
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  layout: 'blog',
+  created(){
+    let test = this.$route.params['categories']
+    console.log(test)    
+    console.log(this.posts)
+  },
+  async asyncData( {$config , params }) {
+    let categoryId = params['categories']
+    const res = await axios.get(
+        $config.apiRoot + `/categories/` + categoryId,
+      {
+        headers:{ 'X-API-KEY' : $config.apiKey }
+      }
+    )
+
+    const posts = await axios.get(
+      $config.apiRoot + '/blog/' +
+      '?limit=10'+
+      '&orders=-publishedAt' +
+      '&filters=category[equals]' + categoryId,
+      {
+        headers:{ 'X-API-KEY' : $config.apiKey }
+      }
+    )
+    return{
+      category: res.data,
+      posts: posts.data
+    }
+  },
+}
+
+</script>

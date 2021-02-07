@@ -2,10 +2,14 @@
   <main class="main m-4">
     <h1 class="title bg-gray-300 hover:bg-gray-400">{{ title }}</h1>
     <p class="publishedAt">{{ publishedAt }}</p>
-    <div class="category">{{ category && category.name }}</div>
+    <div class="category">
+      <nuxt-link :to="`/${category.id}`">
+      {{ category && category.name }}
+      </nuxt-link>
+    </div>
     <div class="tag">
       <ul>
-        <li v-for="tag in tags" :key="tag.id">{{tag.name}}</li>
+        <li v-for="tag in tags" :key="tag.id">{{tag.name}}{{tag.id}}</li>
       </ul>
     </div>
     <div class="post my-4 border-l bg-gray-200 p-4" v-html="body"></div>
@@ -84,8 +88,10 @@ export default {
     if ( resPrev.data.contents && resPrev.data.contents.length >0 ){
       data.prev = resPrev.data.contents[0]
     }
+    const slug = "ページIDは" + params.slug // "/abc" パスにアクセスすると、slug は "abc" になります。
+    console.log(slug)
     console.log(data)
-    console.log(data.tag)
+    console.log(data.tags)
     return data
   },
 }

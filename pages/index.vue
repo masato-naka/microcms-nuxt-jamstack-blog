@@ -5,9 +5,19 @@
     <div>
       <ul>
         <li v-for="content in contents" :key="content.id">
-          <nuxt-link :to="`/${content.id}`">
+          <nuxt-link :to="`/post/${content.id}`">
             {{ content.title }}
           </nuxt-link>
+        </li>
+      </ul>
+    </div>
+    <div class="category">
+      <ul>
+        <li>
+          <li v-for="category in categories.items" :key="category.id">
+            <nuxt-link :to="`/${category.id}`">
+              {{ category.name }}
+            </nuxt-link>
         </li>
       </ul>
     </div>
@@ -32,8 +42,18 @@ export default {
         headers:{ 'X-API-KEY' : $config.apiKey }
       }
     )
+    const resCategories = await axios.get(
+        $config.apiRoot + '/categories/',
+      {
+        headers:{ 'X-API-KEY' : $config.apiKey }
+      }
+    ).then((res) => {
+      return { items: res.data.contents }
+    })
+    data.categories = resCategories
+    console.log(data)
     return data
-  }
+  },
 }
 
 </script>

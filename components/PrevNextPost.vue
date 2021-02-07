@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="prev !== undefined">
-      <nuxt-link :to="`/${prev.id}`">←前の記事（{{ prev.title }}）</nuxt-link>
+      <nuxt-link :to="`/post/${prev.id}`">←前の記事（{{ prev.title }}）</nuxt-link>
     </div>
     <div v-if="next !== undefined">
-      <nuxt-link :to="`/${next.id}`">→次の記事（{{ next.title }}）</nuxt-link>
+      <nuxt-link :to="`/post/${next.id}`">→次の記事（{{ next.title }}）</nuxt-link>
     </div> 
   </div>
 </template>
