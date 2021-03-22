@@ -1,7 +1,7 @@
 <template>
   <div>
     <Logo />
-    AA
+    <p class="font-bold">記事一覧</p>
     <div>
       <ul>
         <li v-for="content in contents" :key="content.id">
@@ -10,34 +10,43 @@
           </nuxt-link>
         </li>
       </ul>
+      <br>
+      <PrevNextList :page="page" :totalPage="totalPage" @change="onPageChange" />
     </div>
+    <br>
+    <br>
+    <p class="mt-4 font-bold"> 以下はカテゴリ一覧</p>
     <div class="category">
       <ul>
         <li>
-          <li v-for="category in categories.items" :key="category.id">
-            <nuxt-link :to="`/${category.id}`">
+          <li v-for="category in categories" :key="category.id">
+            <nuxt-link :to="`/category/${category.id}`">
               {{ category.name }}
             </nuxt-link>
         </li>
       </ul>
     </div>
+    <nuxt-link to="about">about</nuxt-link>
+    <nuxt-link to="about/2">about 2</nuxt-link>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Logo from '~/components/Logo.vue'
+import PrevNextList from '~/components/PrevNextList.vue'
 
 export default {
   components: {
-    Logo
+    Logo,
+    PrevNextList
   },
-  mounted() {
-    console.log(process.env.API_KEY)
-  },
-  async asyncData({ $config }) {
+  async asyncData({ $config , params }) {
+    const pageParam = params.p||'1'
+    const page = Number(pageParam)
+    const limit = 5
     const { data } = await axios.get(
-        $config.apiRoot + '/blog/',
+        $config.apiRoot + `/blog/?limit=${limit}&offset=${(page - 1) * limit}`,
       {
         headers:{ 'X-API-KEY' : $config.apiKey }
       }
@@ -48,12 +57,19 @@ export default {
         headers:{ 'X-API-KEY' : $config.apiKey }
       }
     ).then((res) => {
-      return { items: res.data.contents }
+      return res.data.contents
     })
+    const totalPage = Math.ceil( data.totalCount / limit )
     data.categories = resCategories
-    console.log(data)
+    data.page = page
+    data.totalPage = totalPage
     return data
   },
+  methods: {
+    onPageChange(page){
+      this.page = page
+    }
+  }
 }
 
 </script>

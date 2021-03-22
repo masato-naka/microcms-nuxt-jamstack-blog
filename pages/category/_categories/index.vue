@@ -1,10 +1,11 @@
 <template>
   <main class="main m-4">
-    <h1>category</h1>
-    <h2>{{ category.name }}</h2>
+    <h1 class="text-xl font-bold">category - {{ category.name }}の記事一覧</h1>
     <ul>
       <li v-for="post in posts.contents" :key="post.id">
-        {{ post.title }}
+        <nuxt-link :to="`/post/${post.id}`">
+          {{ post.title }}
+        </nuxt-link>
       </li>
     </ul>
     <nuxt-link to="/">戻る</nuxt-link>
@@ -33,7 +34,8 @@ export default {
     const posts = await axios.get(
       $config.apiRoot + '/blog/' +
       '?limit=10'+
-      '&orders=-publishedAt' +
+      '&fields=id,title,publishedAt' +
+      '&orders=publishedAt' +
       '&filters=category[equals]' + categoryId,
       {
         headers:{ 'X-API-KEY' : $config.apiKey }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex justify-around mb-4">
     <div v-if="prev !== undefined">
       <nuxt-link :to="`/post/${prev.id}`">←前の記事（{{ prev.title }}）</nuxt-link>
     </div>

@@ -3,20 +3,26 @@
     <h1 class="title bg-gray-300 hover:bg-gray-400">{{ title }}</h1>
     <p class="publishedAt">{{ publishedAt }}</p>
     <div class="category">
-      <nuxt-link :to="`/${category.id}`">
+      category -
+      <nuxt-link :to="`/category/${category.id}`">
       {{ category && category.name }}
       </nuxt-link>
     </div>
-    <div class="tag">
+    <div class="tag m-2">
+      tag -
       <ul>
-        <li v-for="tag in tags" :key="tag.id">{{tag.name}}{{tag.id}}</li>
+        <li v-for="tag in tags" :key="tag.id">
+          <nuxt-link :to="`/tags/${tag.id}`">
+          {{tag.name}}{{tag.id}}
+          </nuxt-link>
+        </li>
       </ul>
     </div>
     <div class="post my-4 border-l bg-gray-200 p-4" v-html="body"></div>
 
     <PrevNextPost :next="next" :prev="prev" />
  
-    <nuxt-link to="/">戻る</nuxt-link>
+    <nuxt-link to="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">戻る</nuxt-link>
     <br><br>
     <div class="todo">
       <h2 class="mb-2 px-2 text-xl">New Todo</h2>
@@ -24,21 +30,6 @@
         <input type="text" class="p-2 border" />
         <button class="ml-2 p-2 rounded text-white bg-blue-500">submit</button>
       </form>
-      <h2 class="mb-2 px-2 text-xl">List Todo</h2>
-      <ul class="py-2 px-4">
-        <li class="p-2 border">
-          <p class="border-b">todo 1</p>
-          <p class="text-sm">2020 05/12</p>
-        </li>
-        <li class="mt-2 p-2 border">
-          <p class="border-b">todo 2</p>
-          <p class="text-sm">2020 05/12</p>
-        </li>
-        <li class="mt-2 p-2 border">
-          <p class="border-b">todo 3</p>
-          <p class="text-sm">2020 05/12</p>
-        </li>
-      </ul>
     </div>
   </main>
 </template>
@@ -91,7 +82,6 @@ export default {
     const slug = "ページIDは" + params.slug // "/abc" パスにアクセスすると、slug は "abc" になります。
     console.log(slug)
     console.log(data)
-    console.log(data.tags)
     return data
   },
 }
