@@ -1,6 +1,7 @@
 <template>
   <div>
     <Logo />
+    <nuxt-link to="mntest/">MNtest</nuxt-link>
     <p class="font-bold">記事一覧</p>
     <div>
       <ul>
@@ -63,6 +64,7 @@ export default {
     data.categories = resCategories
     data.page = page
     data.totalPage = totalPage
+    console.log(data)
     return data
   },
   methods: {

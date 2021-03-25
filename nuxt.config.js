@@ -1,14 +1,16 @@
 require('dotenv').config();
-const { API_KEY , API_ROOT } = process.env;
+const { API_KEY , API_ROOT , API_MNTEST } = process.env;
 
 export default {
   privateRuntimeConfig: {
     apiKey: API_KEY,
-    apiRoot: API_ROOT
+    apiRoot: API_ROOT,
+    apiMNtest: API_MNTEST
   },
   publicRuntimeConfig: {
     apiKey: process.env.NODE_ENV !== 'production' ? API_KEY : undefined,
-    apiRoot: process.env.NODE_ENV !== 'production' ? API_ROOT : undefined
+    apiRoot: process.env.NODE_ENV !== 'production' ? API_ROOT : undefined,
+    apiMNtest: process.env.NODE_ENV !== 'production' ? API_MNTEST : undefined
   },
     
   // Target (https://go.nuxtjs.dev/config-target)
@@ -54,7 +56,8 @@ export default {
   build: {
   },
   env: {
-    API_KEY
+    API_KEY,
+    API_MNTEST
   },
   router: {
     extendRoutes(routes, resolve) {
